@@ -1,0 +1,71 @@
+#include <iostream>
+
+template <typename T>
+class Stack {
+private:
+	template <typename T>
+	class Node {
+	public:
+		T date;
+		Node *ptr;
+		Node() {
+			ptr = nullptr;
+		}
+	};
+	
+public:
+	int score = 0;
+	Node<T>* head = new Node<T>;
+	void add(T date);
+	T show();
+	void remove();
+	void clear();
+	~Stack();
+};
+template <typename T>
+void Stack<T>::add(T date) {
+	if (head->ptr == nullptr && score==0) {
+		head->date = date;
+		score++;
+	}
+	else {
+		Node<T>* NewNode = new Node<T>;
+		NewNode->ptr = head->ptr;
+		NewNode->date = head->date;
+		head->ptr = NewNode;
+		head->date = date;
+		score++;
+	}
+}
+
+template <typename T>
+void Stack<T>::remove() {
+	if (head == nullptr) {
+		delete[] head;
+		score--;
+	}
+	else {
+		Node<T> *CurrentNode = new Node<T>;
+		CurrentNode = head;
+		head = head->ptr;
+		delete CurrentNode;
+		score--;
+	}
+}
+
+template <typename T>
+void Stack<T>::clear() {
+	while (score > 0) {
+		remove();
+	}
+}
+
+template <typename T>
+T Stack<T>::show() {
+	return head->date;
+}
+
+template <typename T>
+Stack<T>::~Stack() {
+	clear();
+}
