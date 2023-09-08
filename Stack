@@ -9,11 +9,11 @@ private:
 		Node() {
 			ptr = nullptr;
 		}
-	};
-
-public:
+	};	
 	int size = 0;
 	Node<T>* head = new Node<T>;
+public:
+	
 	//Добавление элемента в начало стека
 	void add(T date);
 
@@ -80,5 +80,7 @@ T Stack<T>::show() {
 
 template <typename T>
 Stack<T>::~Stack() {
+	clear();
+}
 	clear();
 }
