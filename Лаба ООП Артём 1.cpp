@@ -11,6 +11,12 @@ Time::Time(const unsigned char hour, const unsigned char minute, const unsigned 
 	this->hour = hour;
 	this->minute = minute;
 	this->second = second;
+	int secIn = int(this->hour) * 3600 + int(this->minute) * 60 + int(this->second);
+	if (secIn > 86400) {
+		this->hour = 23;
+		this->minute = 59;
+		this->second = 59;
+	}
 }
 
 Time::Time(std::string time) {
@@ -20,9 +26,21 @@ Time::Time(std::string time) {
 	hour = (int(time[0]) - 48) * 10 + (int(time[1]) - 48);
 	minute = (int(time[3]) - 48) * 10 + (int(time[4]) - 48);
 	second = (int(time[6]) - 48) * 10 + (int(time[7]) - 48);
+	int secIn = int(this->hour) * 3600 + int(this->minute) * 60 + int(this->second);
+	if (secIn > 86400) {
+		this->hour = 23;
+		this->minute = 59;
+		this->second = 59;
+	}
+
 }
 
 Time::Time(int second) {
+	if (second > 86400) {
+		this->hour = 23;
+		this->minute = 59;
+		this->second = 59;
+	}
 	this->hour = 0;
 	this->minute = 0;
 	this->second = 0;
@@ -44,15 +62,27 @@ Time::Time(const Time& time) {
 }
 
 void Time::TimeAdd(int second) {
-	while (second >= 3600) {
-		hour += 1;
-		second -= 3600;
+	if (second > 86400) {
+
 	}
-	while (second >= 60) {
-		minute += 1;
-		second -= 60;
+	else {
+		while (second >= 3600) {
+			hour += 1;
+			second -= 3600;
+		}
+		while (second >= 60) {
+			minute += 1;
+			second -= 60;
+		}
+		this->second = second;
+		int secIn = int(this->hour) * 3600 + int(this->minute) * 60 + int(this->second);
+		if (secIn > 86400) {
+			this->hour = 23;
+			this->minute = 59;
+			this->second = 59;
+		}
 	}
-	this->second = second;
+	
 }
 
 int Time::TimeDif(const Time& time) {
@@ -104,46 +134,6 @@ bool Time::TimeComp(const Time& time) {
 		return false;
 	}
 }
-
-std::string Time::ToString() {
-	std::string str;
-	unsigned char first;
-	unsigned char second;
-	unsigned char hours = this->hour;
-	unsigned char minutes = this->minute;
-	unsigned char seconds = this->second;
-	if (int(hours) > 10) {
-		first = int(hours) % 10;
-		int(hours) = int(hours) / 10;
-		second = int(hours) % 10;
-		str += first + second + ':';
-	}
-	else {
-		first = int(hours) % 10;
-		str += '0' + first + ':';
-	}
-	if (int(minutes) > 10) {
-		first = int(minutes) % 10;
-		int(minutes) = int(minutes) / 10;
-		second = int(hours) % 10;
-		str += first + second + ':';
-	}
-	else {
-		first = int(minutes) % 10;
-		str += '0' + first + ':';
-	}
-	if (int(seconds) > 10) {
-		first = int(seconds) % 10;
-		int(minutes) = int(seconds) / 10;
-		second = int(seconds) % 10;
-		str += first + second + ':';
-	}
-	else {
-		first = int(seconds) % 10;
-		str += '0' + first + ':';
-	}
-	return str;
-}
 Time.h
 #include <string>
 
@@ -153,9 +143,9 @@ private:
 	unsigned char minute;
 	unsigned char second;
 public:
-	unsigned char getHour() const { return hour; }
-	unsigned char getMinute() const { return minute; }
-	unsigned char getSecond() const { return second; }
+	int getHour() const { return int(hour); }
+	int getMinute() const { return int(minute); }
+	int getSecond() const { return int(second); }
 	void setHour(int& hour) { this->hour = hour; }
 	void setMinite(int& minute) { this->minute = minute; }
 	void setSecond(int& second) { this->second = second; }
@@ -170,6 +160,5 @@ public:
 	int ToSecond();
 	int ToMinute();
 	bool TimeComp(const Time& time);
-	std::string ToString();
 
 };
