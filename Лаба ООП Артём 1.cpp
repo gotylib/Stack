@@ -134,6 +134,29 @@ bool Time::TimeComp(const Time& time) {
 		return false;
 	}
 }
+void Time::Show() {
+	if (int(hour) > 9) {
+		std::cout << int(hour);
+	}
+	else {
+		std::cout << '0' << int(hour);
+	}
+	std::cout << ':';
+	if (int(minute) > 9) {
+		std::cout << int(minute);
+	}
+	else {
+		std::cout << '0' << int(minute);
+	}
+	std::cout << ':';
+	if (int(second) > 9) {
+		std::cout << int(second);
+	}
+	else {
+		std::cout << '0' << int(second);
+	}
+	std::cout << '\n';
+}
 Time.h
 #include <string>
 
@@ -157,6 +180,7 @@ public:
 	int TimeDif(const Time& time);
 	void TimeAdd(int second);
 	void TimeSub(int second);
+	void Show();
 	int ToSecond();
 	int ToMinute();
 	bool TimeComp(const Time& time);
