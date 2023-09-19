@@ -107,9 +107,12 @@ T& List<T>::operator[](const int index)//+
 template<typename T>
 void List<T>::pop_front()//+
 {
-	if (Size == 1)
+	if (Size == 0)
 	{
-		delete head;
+		std::cout << "List is empty" << '\n';
+	}
+	else if (Size == 1) {
+		Size--;
 	}
 	else
 	{
@@ -117,8 +120,8 @@ void List<T>::pop_front()//+
 		head = head->pNext;
 		head->pPrev = nullptr;
 		delete temp;
+		Size--;
 	}
-	Size--;
 }
 
 template<typename T>
@@ -223,10 +226,10 @@ void List<T>::removeAt(int index)//+
 
 template <typename T>
 void List<T>::DeleAllOccurrences(T date) {
-	Node<T> *current = head;
-	while (current->pNext!= nullptr) {
+	Node<T>* current = head;
+	while (current->pNext != nullptr) {
 		if (current->data == date) {
-			Node<T> *delNode = current;
+			Node<T>* delNode = current;
 			if (current->pPrev == nullptr) {
 				current = current->pNext;
 				head = head->pNext;
@@ -241,7 +244,7 @@ void List<T>::DeleAllOccurrences(T date) {
 				delete delNode;
 				Size--;
 			}
-			
+
 		}
 		else {
 			current = current->pNext;
@@ -261,7 +264,7 @@ void List<T>::DelTheFollowing(T date) {
 	while (current->pNext != nullptr) {
 		if (current->data == date) {
 			if (current->pNext->pNext != nullptr) {
-				Node<T> *delNode = current->pNext;
+				Node<T>* delNode = current->pNext;
 				current->pNext->pNext->pPrev = current;
 				current->pNext = current->pNext->pNext;
 				current = current->pNext;
@@ -286,10 +289,16 @@ void List<T>::DelTheFollowing(T date) {
 template<typename T>
 inline void List<T>::pop_back()//+
 {
-	Node<T>* current = tail;
-	tail->pPrev->pNext = nullptr;
-	delete current;
-	Size--;
+	if (head == tail) {
+		Size--;
+	}
+	else {
+		Node<T>* current = tail;
+		tail->pPrev->pNext = nullptr;
+		delete current;
+		Size--;
+	}
+	
 }
 
 
@@ -297,27 +306,43 @@ inline void List<T>::pop_back()//+
 template<typename T>
 void List<T>::showlist(bool startfrom)//1-head,0-tail//+
 {
-	if (startfrom)
-	{
-		Node<T>* current = head;
-		while (current != nullptr)
-		{
-			std::cout << current->data << '\n';
-			current = current->pNext;
-		}
+	if (Size == 0) {
+		std::cout << "List is empty" << '\n';
 	}
-	else
-	{
-		Node<T>* current = tail;
-		while (current != nullptr)
+	else {
+		if (startfrom)
 		{
-			std::cout << current->data << '\n';
-			current = current->pPrev;
+			Node<T>* current = head;
+			int i = 0;
+			while (current != nullptr && i<Size)
+			{
+				std::cout << current->data << '\n';
+				current = current->pNext;
+				i++;
+			}
+		}
+		else
+		{
+			Node<T>* current = tail;
+			int i = 0;
+			while (current != nullptr && i<Size)
+			{
+				std::cout << current->data << '\n';
+				current = current->pPrev;
+				i++;
+			}
 		}
 	}
 }
 main.cpp
-	int main() {
+#include "Time.h"
+#include "BiList.h"
+#include <iostream>
+#include <Windows.h>
+
+
+
+int main() {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	int choice;
@@ -393,13 +418,14 @@ main.cpp
 				std::cout << "Введите индекс элемента для возврата по индексу: ";
 				std::cin >> elem;
 				std::cout << lst[elem] << '\n';
+				std::cout << '\n';
 				break;
 			case 10:
 				lst.clear();
 				std::cout << '\n';
 				break;
 			case 11:
-				lst.showlist();
+				lst.showlist(1);
 				std::cout << '\n';
 
 		}
