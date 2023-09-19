@@ -316,3 +316,93 @@ void List<T>::showlist(bool startfrom)//1-head,0-tail//+
 		}
 	}
 }
+main.cpp
+	int main() {
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	int choice;
+	int elem;
+	List<int> lst;
+	do {
+		std::cout << "Для того, что бы выполнить действие введите: " << '\n';
+		std::cout << "Добавление в начало: " << '1' << '\n';
+		std::cout << "Добавление в конец: " << '2' << '\n';
+		std::cout << "Добавление по индексу: " << '3' << '\n';
+		std::cout << "Удаление начала: " << '4' << '\n';
+		std::cout << "Удаление конца: " << '5' << '\n';
+		std::cout << "Удаление по индексу: " << '6' << '\n';
+		std::cout << "Удаление всех вхождений: " << '7' << '\n';
+		std::cout << "Удаление по элементу после элемента вхождения: " << '8' << '\n';
+		std::cout << "Поиск по индексы с возвратом значения: " << '9' << '\n';
+		std::cout << "Полная отчистка: " << "10" << '\n';
+		std::cout << "Показать лист: " << "11" << '\n';
+		std::cout << "Завершить программу: " << "12" << '\n';
+		std::cout << '\n';
+		std::cout << "Введите число: ";
+		std::cin >> choice;
+		switch (choice) {
+			case 1:
+				std::cout << "Введите элемент для ввода: ";
+				std::cin >> elem;
+				lst.push_front(elem);
+				std::cout << '\n';
+				break;
+			case 2:
+				std::cout << "Введите элемент для ввода: ";
+				std::cin >> elem;
+				lst.push_back(elem);
+				std::cout << '\n';
+				break;
+
+			case 3:
+				std::cout << "Введите индкса для добавления: ";
+				std::cin >> elem;
+				int elem_2;
+				std::cout << "Введите элемент для ввода: ";
+				std::cin >> elem_2;
+				lst.insert(elem_2, elem);
+				std::cout << '\n';
+				break;
+			case 4:
+				lst.pop_front();
+				std::cout << '\n';
+				break;
+			case 5:
+				lst.pop_back();
+				std::cout << '\n';
+				break;
+			case 6:
+				std::cout << "Введите индкс для удаления: ";
+				std::cin >> elem;
+				lst.removeAt(elem);
+				std::cout << '\n';
+				break;
+			case 7:
+				std::cout << "Введите элемент для удаления по вхождению: ";
+				std::cin >> elem;
+				lst.DeleAllOccurrences(elem);
+				std::cout << '\n';
+				break;
+			case 8:
+				std::cout << "Введите элемент для удаления после него: ";
+				std::cin >> elem;
+				lst.DelTheFollowing(elem);
+				std::cout << '\n';
+				break;
+			case 9:
+				std::cout << "Введите индекс элемента для возврата по индексу: ";
+				std::cin >> elem;
+				std::cout << lst[elem] << '\n';
+				break;
+			case 10:
+				lst.clear();
+				std::cout << '\n';
+				break;
+			case 11:
+				lst.showlist();
+				std::cout << '\n';
+
+		}
+			
+	} while (choice != 12);
+}
