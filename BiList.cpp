@@ -276,6 +276,9 @@ void List<T>::DelTheFollowing(T date) {
 				Size--;
 			}
 		}
+		else {
+			current = current->pNext;
+		}
 	}
 
 }
