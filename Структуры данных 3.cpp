@@ -3,7 +3,52 @@
 #include <fstream>
 #include <vector>
 
+void relog(std::string& logic) {
+	int size = logic.size();
+	for (int i = 0; i < size; ++i) {
+		if (logic[i] == '*') {
+			if (logic[i - 1] == '1' && logic[i + 1] == '1') {
+				logic.replace(i - 1, 3, "1");
+				size -= 2;
+			}
+			else {
+				logic.replace(i - 1, 3, "0");
+				size -= 2;
+			}
+		}
+	}
+	for (int i = 0; i < size; ++i) {
+		if (logic[i] == '-') {
+			if (logic[i - 1] == '1' && logic[i + 1] == '1' || logic[i - 1] == '0' && logic[i + 1] == '0') {
+				logic.replace(i - 1, 3, "0");
+				size -= 2;
+			}
+			else {
+				logic.replace(i - 1, 3, "1");
+				size -= 2;
+			}
+		}
+		if (logic[i] == '+') {
+			if (logic[i - 1] == '0' && logic[i + 1] == '0') {
+				logic.replace(i - 1, 3, "0");
+				size -= 2;
+			}
+			else {
+				logic.replace(i - 1, 3, "1");
+				size -= 2;
+			}
+		}
+		if (logic[i] == '~' && logic[i + 1] == '0') {
+			logic.replace(i, 2, "1");
+			size--;
+		}
+		if (logic[i] == '~' && logic[i + 1] == '1') {
+			logic.replace(i, 2, "0");
+			size--;
+		}
+	}
 
+}
 
 void relog(std::string& logic, int elem) {
 	int index = elem + 1;
@@ -65,8 +110,7 @@ int main() {
 	if (file.is_open()) {
 		file >> logic;
 		file.close();
-		std::string logic_1;
-		std::string logic_2;
+		std::cout << logic << std::endl;
 		for (int i = 0; i < logic.size(); i++) {
 			if (logic[i] == '(') {
 				elem.push_back(i);
@@ -87,6 +131,7 @@ int main() {
 				size--;
 			}
 		}
+		relog(logic);
 		std::cout << logic << std::endl;
 	}
 	else {
