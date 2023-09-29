@@ -46,6 +46,10 @@ void relog(std::string& logic) {
 			logic.replace(i, 2, "0");
 			size--;
 		}
+		if (logic[i] == '~' && logic[i + 1] == '~') {
+			logic.replace(i, 2, "");
+			size-=2;
+		}
 	}
 
 }
@@ -96,6 +100,10 @@ void relog(std::string& logic, int elem) {
 		if (logic[i] == '~' && logic[i + 1] == '1') {
 			logic.replace(i, 2, "0");
 			index--;
+		}
+		if (logic[i] == '~' && logic[i + 1] == '~') {
+			logic.replace(i, 2, "");
+			index -= 2;
 		}
 	}
 	logic.replace(elem ,1, "");
