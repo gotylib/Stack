@@ -61,6 +61,20 @@ void relog(std::string& logic, int elem) {
 	}
 	index++;
 	for (int i = elem; i < index; ++i) {
+		if (logic[i] == '~' && logic[i + 1] == '0') {
+			logic.replace(i, 2, "1");
+			index--;
+		}
+		if (logic[i] == '~' && logic[i + 1] == '1') {
+			logic.replace(i, 2, "0");
+			index--;
+		}
+		if (logic[i] == '~' && logic[i + 1] == '~') {
+			logic.replace(i, 2, "");
+			index -= 2;
+		}
+	}
+	for (int i = elem; i < index; ++i) {
 		if (logic[i] == '*') {
 			if (logic[i - 1] == '1' && logic[i + 1] == '1') {
 				logic.replace(i-1, 3, "1");
@@ -92,18 +106,6 @@ void relog(std::string& logic, int elem) {
 				logic.replace(i - 1, 3, "1");
 				index -= 2;
 			}
-		}
-		if (logic[i] == '~' && logic[i + 1] == '0') {
-			logic.replace(i, 2, "1");
-			index--;
-		}
-		if (logic[i] == '~' && logic[i + 1] == '1') {
-			logic.replace(i, 2, "0");
-			index--;
-		}
-		if (logic[i] == '~' && logic[i + 1] == '~') {
-			logic.replace(i, 2, "");
-			index -= 2;
 		}
 	}
 	logic.replace(elem ,1, "");
