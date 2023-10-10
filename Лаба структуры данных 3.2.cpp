@@ -1,3 +1,5 @@
+~(~1*~1+0)::=~(~1+1)
+
 #include <iostream>
 #include <string>
 #include <fstream>
